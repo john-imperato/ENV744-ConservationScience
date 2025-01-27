@@ -38,7 +38,7 @@ Load Great Basin boundary shapefile
 gb <- st_read("/Users/johnimperato/Desktop/ENV744-ConservationScience/data/Geographic features/Great Basin Boundary/GreatBasinBorder.shp")
 
 ```
-
+Plot to make sure it looks OK
 
 ```{r}
 
