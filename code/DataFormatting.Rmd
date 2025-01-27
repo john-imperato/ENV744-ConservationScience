@@ -1,0 +1,49 @@
+---
+title: "Species Data Formatting"
+output: html_document
+date: "2025-01-27"
+---
+
+```{r}
+
+library(ggmap)
+library(sf)
+library(data.table)
+library(tidyverse)
+library(ggplot2)
+
+```
+
+Load GBIF occurrence data
+
+```{r}
+
+# use 'fread' to take care of error with read.csv()
+lct_gbif <- fread("/Users/johnimperato/Desktop/ENV744-ConservationScience/data/LCT_GBIF.csv", fill = TRUE)
+
+# omit rows with NA values in 
+lct_gbif_clean <- lct_gbif[!is.na(lct_gbif$decimalLatitude) & !is.na(lct_gbif$decimalLongitude), ]
+
+# convert to sf object
+lct_gbif_sf <- st_as_sf(lct_gbif_clean,
+                        coords = c("decimalLongitude", "decimalLatitude"),
+                        crs = 4326)
+
+```
+
+Load Great Basin boundary shapefile
+
+```{r}
+
+gb <- st_read("/Users/johnimperato/Desktop/ENV744-ConservationScience/data/Geographic features/Great Basin Boundary/GreatBasinBorder.shp")
+
+```
+
+
+```{r}
+
+ggplot() +
+  geom_sf(data = gb) +
+  geom_sf(data = lct_gbif_sf)
+
+```
